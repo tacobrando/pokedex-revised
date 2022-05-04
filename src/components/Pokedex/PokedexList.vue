@@ -24,6 +24,7 @@ const state = reactive({
   pokedex: [],
   nextPage: "",
   currentPage: "",
+  active: false,
 });
 
 function getInfo() {
@@ -70,6 +71,7 @@ function next() {
 }
 
 function getPokemon(id) {
+  state.active != state.active;
   emit("getPokemon", id);
 }
 
@@ -86,6 +88,7 @@ onMounted(() => {
   <div class="pokedex-list" :style="{ height: winHeight + 'px' }">
     <div
       class="pokemon-container"
+      :class="{ active: state.active }"
       v-for="(pokemon, index) in state.pokedex"
       @click="getPokemon(pokemon.id)"
       :key="'poke' + index"
@@ -94,10 +97,7 @@ onMounted(() => {
         <img src="../../assets/navbar/pokeball-small.png" />
       </div>
       <img id="sprite" :src="`${spriteUrl}/${pokemon.id}.png`" />
-      <p class="number" v-if="pokemon.id < 1000">
-        No. {{ String(pokemon.id).padStart(3, "0") }}
-      </p>
-      <p class="number" v-else>No. {{ pokemon.id }}</p>
+      <p class="number">No. {{ String(pokemon.id).padStart(3, "0") }}</p>
       <p class="name">{{ capitalizeFirstLetter(pokemon.name) }}</p>
     </div>
     <div id="scroll-trigger" ref="infinitescrolltrigger">
@@ -115,6 +115,14 @@ onMounted(() => {
   width: 100%;
   overflow-y: auto;
   padding-right: 30px;
+}
+
+.pokemon-container:active {
+  background: #f49845;
+
+  .caught {
+    background: #e5822e;
+  }
 }
 .pokemon-container {
   display: flex;
