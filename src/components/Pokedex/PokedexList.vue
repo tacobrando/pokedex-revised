@@ -6,6 +6,8 @@ import {
   reactive,
   ref,
 } from "@vue/runtime-core";
+
+import sound from "../../assets/button.mp3";
 const props = defineProps({
   apiUrl: {
     type: String,
@@ -20,11 +22,13 @@ const emit = defineEmits(["getPokemon"]);
 const winHeight = reactive(window.innerHeight - 125);
 const infinitescrolltrigger = ref(null);
 const fetchApi = inject("fetchApi");
+const audio = new Audio(sound);
 const state = reactive({
   pokedex: [],
   nextPage: "",
   currentPage: "",
   active: false,
+  focus: 0,
 });
 
 function getInfo() {
@@ -71,13 +75,40 @@ function next() {
 }
 
 function getPokemon(id) {
-  state.active != state.active;
   emit("getPokemon", id);
+}
+
+function focusTarget(event, id, index) {
+  // audio.play();
+  switch (event.keyCode) {
+    case 38:
+      if (state.focus == null) {
+        state.focus = 0;
+      } else if (state.focus > 0) {
+        state.focus--;
+        emit("getPokemon", state.focus + 1);
+      }
+      break;
+    case 40:
+      if (state.focus == null) {
+        state.focus = 0;
+      } else if (state.focus < state.pokedex.length - 1) {
+        state.focus++;
+        emit("getPokemon", state.focus + 1);
+      }
+      break;
+  }
+  if (event.type == "click") {
+    state.focus = id - 1;
+
+    emit("getPokemon", state.focus + 1);
+  }
 }
 
 onBeforeMount(() => {
   state.currentPage = props.apiUrl;
   getInfo();
+  getPokemon(1);
 });
 onMounted(() => {
   scrollTrigger();
@@ -85,49 +116,90 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="pokedex-list" :style="{ height: winHeight + 'px' }">
-    <div
+  <ul
+    @keydown="focusTarget"
+    class="pokedex-list"
+    :style="{ height: winHeight + 'px' }"
+  >
+    <li
       class="pokemon-container"
-      :class="{ active: state.active }"
+      :style="{ marginTop: winHeight / 2 - 40 + 'px' }"
+      id="fill"
+    ></li>
+    <li
+      class="testContainer"
+      tabindex="0"
+      :class="{ active: index === state.focus }"
       v-for="(pokemon, index) in state.pokedex"
-      @click="getPokemon(pokemon.id)"
+      @click="focusTarget($event, pokemon.id, index)"
       :key="'poke' + index"
     >
-      <div class="caught">
-        <img src="../../assets/navbar/pokeball-small.png" />
+      <img
+        id="arrow"
+        src="../../assets/arrow.svg"
+        v-if="state.focus == index"
+      />
+      <div class="pokemon-container" :class="{ focus: index === state.focus }">
+        <div class="caught">
+          <img src="../../assets/navbar/pokeball-small.png" />
+        </div>
+        <img id="sprite" :src="`${spriteUrl}/${pokemon.id}.png`" />
+        <p class="number">No. {{ String(pokemon.id).padStart(3, "0") }}</p>
+        <p class="name">{{ capitalizeFirstLetter(pokemon.name) }}</p>
       </div>
-      <img id="sprite" :src="`${spriteUrl}/${pokemon.id}.png`" />
-      <p class="number">No. {{ String(pokemon.id).padStart(3, "0") }}</p>
-      <p class="name">{{ capitalizeFirstLetter(pokemon.name) }}</p>
-    </div>
+    </li>
     <div id="scroll-trigger" ref="infinitescrolltrigger">
       <p>Loading...</p>
     </div>
-  </div>
+  </ul>
 </template>
 <style scoped lang="scss">
 #sprite {
   width: 35px;
   height: 35px;
 }
-.pokedex-list {
-  margin: auto;
-  width: 100%;
-  overflow-y: auto;
-  padding-right: 30px;
+
+#fill {
+  visibility: hidden;
+}
+#arrow {
+  height: 35px;
+  -webkit-filter: invert(100%); /* Safari/Chrome */
+  filter: invert(100%);
+}
+.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+  background: red;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin-right: 5%;
+  margin-left: -5%;
 }
 
-.pokemon-container:active {
-  background: #f49845;
+.focus {
+  background: #f49845 !important;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 
   .caught {
-    background: #e5822e;
+    background: #e5822e !important;
   }
+}
+
+.pokedex-list {
+  margin: auto;
+  list-style: none;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 30px;
 }
 .pokemon-container {
   display: flex;
   justify-content: flex-start;
-  margin: 10px 0px 0px 15%;
+  margin: 5px;
   align-items: center;
   background: #fceab8;
   padding: 1px;
@@ -137,6 +209,7 @@ onMounted(() => {
   color: black;
   text-align: start;
   cursor: pointer;
+  width: 90%;
 
   .caught {
     display: flex;
@@ -155,7 +228,7 @@ onMounted(() => {
 
   p {
     margin: 0 5% 0 5%;
-    width: 20%;
+    width: 24%;
   }
 }
 
