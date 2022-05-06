@@ -147,8 +147,8 @@ onMounted(() => {
         <p class="name">{{ capitalizeFirstLetter(pokemon.name) }}</p>
       </div>
     </li>
-    <div id="scroll-trigger" ref="infinitescrolltrigger">
-      <p>Loading...</p>
+    <div class="loader" id="scroll-trigger" ref="infinitescrolltrigger">
+      <img src="../../assets/navbar/pokeball-small.png" alt="" />
     </div>
   </ul>
 </template>
@@ -254,5 +254,17 @@ onMounted(() => {
 ::-webkit-scrollbar-track {
   border: 2px solid #9ebcf7;
   background: url("../../assets/scrollbar.svg");
+}
+.loader img {
+  width: 50px;
+  animation: loader 1.2s linear infinite;
+}
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
