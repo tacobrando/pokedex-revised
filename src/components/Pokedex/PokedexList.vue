@@ -6,7 +6,6 @@ import {
   reactive,
   ref,
 } from "@vue/runtime-core";
-
 import sound from "../../assets/button.mp3";
 const props = defineProps({
   apiUrl: {
@@ -178,7 +177,6 @@ onMounted(() => {
   margin-right: 5%;
   margin-left: -5%;
 }
-
 .focus {
   background: #f49845 !important;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -195,6 +193,7 @@ onMounted(() => {
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 30px;
+  scroll-snap-type: y mandatory;
 }
 .pokemon-container {
   display: flex;
