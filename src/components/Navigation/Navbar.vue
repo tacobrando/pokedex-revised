@@ -6,7 +6,7 @@
       <div class="deco" />
       <div class="title">
         <img src="../../assets/navbar/pokeball-small-blue.png" />
-        <span>Pokédex</span>
+        <span><h3>Pokédex</h3></span>
         <img src="../../assets/navbar/pokeball-small-blue.png" />
       </div>
       <div class="capture-details">
@@ -110,18 +110,19 @@
   background: #71a4f3;
   width: 30%;
 
-  p {
-    margin: 0;
-  }
-
   .container {
     display: flex;
     justify-content: center;
     align-self: center;
+    text-align: center;
     width: 80%;
     height: 50%;
     background: #4379cf;
     border-radius: 50px;
+
+    p {
+      margin: auto;
+    }
   }
 }
 
@@ -145,5 +146,12 @@
     height: 100%;
     background: #abdefb;
   }
+}
+
+h3 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0;
+  -webkit-text-stroke: 2px #326a7a;
 }
 </style>

@@ -95,7 +95,7 @@ const props = defineProps({
           />
         </filter>
       </defs>
-      <image class="shadow" x="23%" y="15%" :href="imageUrl" />
+      <image class="shadow" x="22%" y="15%" :href="imageUrl" />
     </svg>
   </div>
 </template>
