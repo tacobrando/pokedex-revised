@@ -1,0 +1,13 @@
+
+.App-header {
+  background-image: url("./images/background.png");
+  background-repeat: repeat;
+  background-size: 100%;
+  min-height: 100vh;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.navbar {
+  z-index: 2;
+}

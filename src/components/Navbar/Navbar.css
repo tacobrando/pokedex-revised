@@ -1,0 +1,73 @@
+.navbar {
+  background: #5b80f5;
+  border-bottom: 5px solid #3a403d;
+  height: 70px;
+}
+.details {
+  width: 70%;
+}
+
+.title{
+  background: #88daf2;
+  border: 5px solid #3353a8;
+  border-radius: 30px;
+}
+.deco {
+  background: #2e4b92;
+}
+.caught {
+  margin: 5%;
+  padding: 3px;
+  background: #1b2d77;
+  border-radius: 20px;
+}
+
+.caught img {
+  margin: 0;
+  height: 23px;
+  width: 23px;
+}
+.caught p {
+  margin: 0 5px 0 0;
+}
+
+.sortby {
+  background: #71a4f3;
+}
+
+.container {
+  background: #4379cf;
+  border-radius: 50px;
+}
+.fill1 {
+  width: 10px;
+  height: 100%;
+  background: #79a9e9;
+}
+.fill2 {
+  width: 10px;
+  height: 100%;
+  background: #8cbfee;
+}
+.fill3 {
+  width: 5px;
+  height: 100%;
+  background: #abdefb;
+}
+
+
+h3 {
+font-size: 1.8rem;
+font-weight: 800;
+margin: 0;
+-webkit-text-stroke: 2px #326a7a;
+}
+
+img {
+  width: 30px;
+  height: 30px;
+}
+
+p {
+  margin: 0;
+}
