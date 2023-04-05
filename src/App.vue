@@ -17,7 +17,12 @@ import Pokedex from "./components/Pokedex/Pokedex.vue";
       <sideBarSVG id="svg" />
     </div>
   </div>
-  <div class="footer"></div>
+  <div class="footer">
+    <span id="details">
+      <button>A</button> 
+      <h3>See Details</h3>
+    </span>
+  </div>
 </template>
 
 <style>
@@ -60,6 +65,29 @@ body {
   bottom: 0;
   width: 100%;
 }
+
+#details {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 20px;
+}
+#details button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  height: 40px;
+  width: 40px;
+  background: #777777;
+  border: none;
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.25);
+  font-size: 2.5rem;
+  color: white;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */

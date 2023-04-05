@@ -2,7 +2,6 @@
 import {
   inject,
   onBeforeMount,
-  onMounted,
   reactive,
   ref,
 } from "@vue/runtime-core";
@@ -17,9 +16,10 @@ const props = defineProps({
     required: true,
   },
 });
+const urlParseHelper = "https://pokeapi.co/api/v2/pokemon-species/"
 const emit = defineEmits(["getPokemon"]);
 const winHeight = reactive(window.innerHeight - 125);
-const infinitescrolltrigger = ref(null);
+// const infinitescrolltrigger = ref(null);
 const fetchApi = inject("fetchApi");
 const audio = new Audio(sound);
 const state = reactive({
@@ -28,6 +28,7 @@ const state = reactive({
   currentPage: "",
   active: false,
   focus: 0,
+  count: 0,
 });
 
 function getInfo() {
@@ -39,13 +40,8 @@ function getInfo() {
     })
     .then((data) => {
       state.nextPage = data.next;
-      data.results.forEach((pokemon) => {
-        pokemon.id = pokemon.url
-          .split("/")
-          .filter(function (pokeId) {
-            return !!pokeId;
-          })
-          .pop();
+      data.pokemon_entries.forEach((pokemon) => {
+        pokemon.id = parseInt(pokemon.pokemon_species.url.replace(urlParseHelper, ''))
         state.pokedex.push(pokemon);
       });
     })
@@ -57,50 +53,49 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function scrollTrigger() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.intersectionRatio > 0 && state.nextPage) {
-        next();
-      }
-    });
-  });
-  observer.observe(infinitescrolltrigger.value);
-}
+// DEPRECATED
+// Kept in for possible future use
 
-function next() {
-  state.currentPage = state.nextPage;
-  getInfo();
-}
+// function scrollTrigger() {
+//   const observer = new IntersectionObserver((entries) => {
+//     entries.forEach((entry) => {
+//       if (entry.intersectionRatio > 0 && state.nextPage) {
+//         next();
+//       }
+//     });
+//   });
+//   observer.observe(infinitescrolltrigger.value);
+// }
+
+// function next() {
+//   state.currentPage = state.nextPage;
+//   getInfo();
+// }
 
 function getPokemon(id) {
   emit("getPokemon", id);
 }
 
-function focusTarget(event, id, index) {
-  // audio.play();
-  switch (event.keyCode) {
-    case 38:
-      if (state.focus == null) {
-        state.focus = 0;
-      } else if (state.focus > 0) {
-        state.focus--;
-        emit("getPokemon", state.focus + 1);
-      }
-      break;
-    case 40:
-      if (state.focus == null) {
-        state.focus = 0;
-      } else if (state.focus < state.pokedex.length - 1) {
-        state.focus++;
-        emit("getPokemon", state.focus + 1);
-      }
-      break;
-  }
+function focusTarget(event, id, url) {
+  // Arrow key functions not working when switching to .gifs
+  // Will have to debug later
+  
+  // switch (event.keyCode) {
+  //   case 38:
+  //     state.focus--;
+  //     emit("getPokemon", url);
+  //     audio.play();
+  //     break;
+  //   case 40:
+  //     state.focus++;
+  //     emit("getPokemon", url);
+  //     audio.play();
+  //     break;
+  // }
   if (event.type == "click") {
     state.focus = id - 1;
-
-    emit("getPokemon", state.focus + 1);
+    audio.play();
+    emit("getPokemon", url);
   }
 }
 
@@ -109,9 +104,9 @@ onBeforeMount(() => {
   getInfo();
   getPokemon(1);
 });
-onMounted(() => {
-  scrollTrigger();
-});
+// onMounted(() => {
+//   scrollTrigger();
+// });
 </script>
 
 <template>
@@ -130,8 +125,8 @@ onMounted(() => {
       tabindex="0"
       :class="{ active: index === state.focus }"
       v-for="(pokemon, index) in state.pokedex"
-      @click="focusTarget($event, pokemon.id, index)"
-      :key="'poke' + index"
+      @click="focusTarget($event, pokemon.entry_number, pokemon.pokemon_species.url)"
+      :key="pokemon.entry_number"
     >
       <img
         id="arrow"
@@ -143,13 +138,15 @@ onMounted(() => {
           <img src="../../assets/navbar/pokeball-small.png" />
         </div>
         <img id="sprite" :src="`${spriteUrl}/${pokemon.id}.png`" />
-        <p class="number">No. {{ String(pokemon.id).padStart(3, "0") }}</p>
-        <p class="name">{{ capitalizeFirstLetter(pokemon.name) }}</p>
+        <p class="number">No. {{ String(pokemon.entry_number).padStart(3, "0") }}</p>
+        <p class="name">{{ capitalizeFirstLetter(pokemon.pokemon_species.name) }}</p>
       </div>
     </li>
-    <div class="loader" id="scroll-trigger" ref="infinitescrolltrigger">
+    <!-- Loader animation not needed anymore due to limiting of api calls -->
+
+    <!-- <div class="loader" id="scroll-trigger" ref="infinitescrolltrigger">
       <img src="../../assets/navbar/pokeball-small.png" alt="" />
-    </div>
+    </div> -->
   </ul>
 </template>
 <style scoped lang="scss">

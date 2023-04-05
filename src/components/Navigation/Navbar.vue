@@ -1,4 +1,5 @@
 <script setup>
+import { inject } from 'vue';
 </script>
 <template>
   <div class="navbar">
@@ -6,17 +7,17 @@
       <div class="deco" />
       <div class="title">
         <img src="../../assets/navbar/pokeball-small-blue.png" />
-        <span><h3>Pokédex</h3></span>
+        <span><h3>Sinnoh Pokédex</h3></span>
         <img src="../../assets/navbar/pokeball-small-blue.png" />
       </div>
       <div class="capture-details">
         <span class="caught" id="totalCaught">
           <img src="../../assets/navbar/pokeball-small.png" />
-          <p>898</p>
+          <p>151</p>
         </span>
         <span class="caught" id="totalPokemon">
           <img src="../../assets/navbar/default.png" />
-          <p>898</p>
+          <p>151</p>
         </span>
       </div>
     </div>

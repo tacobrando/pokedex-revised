@@ -6,7 +6,6 @@ defineProps({
 });
 const winHeight = reactive(window.innerHeight);
 const winWidth = reactive(window.innerWidth);
-const count = ref(0);
 </script>
 
 <template>
