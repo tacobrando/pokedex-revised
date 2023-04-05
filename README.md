@@ -1,8 +1,16 @@
-# Vue 3 + Vite
+# Pokedex App
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This web application is a recreation of the pokedex from Pokemon Brilliant Diamond & Pokemon Shining Pearl. Pokemon has been one of my favourite childhood franchises growing up, as it has for many others too.
 
-## Recommended IDE Setup
+This project uses VueJS, Vite, Tailwind, PokeApi, and Sprites from the Pokemon showdown directory. I have also created my own custom SVGs for this application, mainly for the sidebar and pokemon viewbox. SVGs helped in this case because some assets were difficult to create using CSS alone and weren't entirely accurate to the source material either.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
-# pokedex-revised
+Project is still W.I.P but feel free to check it out
+## Usage
+
+To run this application:
+    
+    npm install
+
+    npm run dev
+
+Or click [here](http://pokedex-project-3244b.firebaseapp.com)
