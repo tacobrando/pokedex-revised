@@ -16,8 +16,8 @@ const imageUrl =
   "https://play.pokemonshowdown.com/sprites/xyani/";
 const apiUrl = "https://pokeapi.co/api/v2/pokedex/5/";
 
-function getInfo(url) {
-  fetchApi(url)
+async function getInfo(url) {
+  await fetchApi(url)
     .then((response) => {
       state.responseStatus = response.status;
       return response.json();

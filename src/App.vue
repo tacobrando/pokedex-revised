@@ -5,6 +5,10 @@ import { ref } from "vue";
 import sideBarSVG from "./components/sidebar-svg.vue";
 import Navbar from "./components/Navigation/Navbar.vue";
 import Pokedex from "./components/Pokedex/Pokedex.vue";
+
+function getDetails() {
+  emit("getDetails")
+}
 </script>
 
 <template>
@@ -19,7 +23,7 @@ import Pokedex from "./components/Pokedex/Pokedex.vue";
   </div>
   <div class="footer">
     <span id="details">
-      <button>A</button> 
+      <button @click="getDetails">A</button> 
       <h3>See Details</h3>
     </span>
   </div>
